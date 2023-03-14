@@ -11,4 +11,4 @@ Application to read some data from sensors
 * wires
 
 ## The circuit
-![conexiuniv3](https://user-images.githubusercontent.com/7062074/220179550-9a2246ba-55cc-458f-ab41-a72eb64f7eb5.JPG)
+![conexiuniv3](https://user-images.githubusercontent.com/7062074/225157704-22415c2b-6299-43dd-a065-b5552f2fbc1b.JPG)
