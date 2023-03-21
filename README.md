@@ -12,3 +12,42 @@ Application to read some data from sensors
 
 ## The circuit
 ![conexiuniv3](https://user-images.githubusercontent.com/7062074/225157704-22415c2b-6299-43dd-a065-b5552f2fbc1b.JPG)
+
+## Project Arduino sensors
+In this project is the code that read all the data from the dht22, mq-2 and pir movement sensor and send the data packed as json to serial.
+
+Json example:
+```json
+{
+  "dht22": {
+    "temperature": 22,
+    "humidity": 50
+  },
+  "mq2": {
+    "lpg": 0.2,
+    "co": 0,
+    "smoke": 0.66
+  }
+}
+```
+
+## Project SerialReader
+In this folder is the python script that read from the serial the data sent by the Arduino board and after unpack the json send it to MQTT broker server
+
+The pyhon script need to use an configuration file config.ini as the below example:
+```ini
+[serial]
+port = COM3
+baudrate = 9600
+timeout = 1
+
+[mqtt]
+host = localhost
+port = 1883
+username = user
+password = test
+topic = sensors
+
+[logging]
+level = INFO
+```
