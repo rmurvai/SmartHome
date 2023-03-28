@@ -17,4 +17,5 @@ private:
 	static float _humidity;
 	static float _temperature;
 	static unsigned long _lastReadTime;
+  float values[2];
 };

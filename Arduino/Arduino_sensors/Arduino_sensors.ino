@@ -39,6 +39,7 @@ void loop() {
   mq2["co"] = gas[1];
   mq2["smoke"] = gas[2];
 
+  Serial.println();
   serializeJson(doc, Serial); 
   
   delay(1000);

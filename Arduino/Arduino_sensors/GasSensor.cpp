@@ -1,6 +1,6 @@
 #include "GasSensor.h"
 
-static const unsigned long READ_INTERVAL = 10000UL; // read every 10 seconds
+static const unsigned long READ_INTERVAL = 1000UL; // read every 1 seconds
 
 float GasSensor::_lpg = 0;
 float GasSensor::_co = 0;
@@ -28,7 +28,6 @@ float *GasSensor::Read(bool print)
     unsigned long now = millis();
     if (now < _lastReadTime + READ_INTERVAL)
     {
-        static float values[3] = {_lpg, _co, _smoke};
         return values;
     }
 
@@ -51,6 +50,8 @@ float *GasSensor::Read(bool print)
     // save the last time read
     _lastReadTime = now;
 
-    static float values[3] = {_lpg, _co, _smoke};
+    values[0] = _lpg;
+    values[1] =  _co;
+    values[2] = _smoke;
     return values;
 }

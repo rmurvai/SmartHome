@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sensor data</title>
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/SensorData.css" rel="stylesheet">
+	<script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="js/mqttws31.js"></script>
+
+    <!-- <script src="js/window.js"></script> -->
+    <!-- <script src="js/main.js"></script> -->
+
+    <script>
+        //
+        // animation on document ready
+        //
+        $(document).ready(function () {
+
+            $('.sensorItem').css('opacity', '0');
+
+            $('.sensorItem').each(function (i) {
+                delay = (i) * 100;
+                delay = (i) * 100;
+                $(this).delay(delay).animate({
+                    opacity: 1
+                }, {
+                        duration: 200,
+                        complete: function () {
+                            $(this).addClass('animated fadeInRight');
+                        }
+                    });
+            });
+        })
+
+        $(document).ready(function () {
+            $(".fadeIn").each(function () {
+                $(this).delay(150).fadeIn("slow");
+            });
+            /*$(".fadeInRight").each(function() {
+              $(this).delay(300).fadeIn("slow");
+            });*/
+
+            $(document).ready(function () {
+                $(".vulnerableFeature").click(function (event) {
+                    event.preventDefault();
+                    linkLocation = this.href;
+                    $("body").fadeOut(10100, redirectPage(autoUpdate.html));
+                });
+
+                function redirectPage(link) {
+                    document.location.href = link;
+                }
+            });
+        });
+
+		 var hostname = "127.0.0.1";
+var port = 8080;
+var clientId = "webio4mqttexample";
+clientId += new Date().getUTCMilliseconds();;
+var username = "user";
+var password = "test";
+var subscription = "sensors/#";
+
+mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
+mqttClient.onMessageArrived = MessageArrived;
+mqttClient.onConnectionLost = ConnectionLost;
+Connect();
+
+/*Initiates a connection to the MQTT broker*/
+function Connect(){
+	mqttClient.connect({
+	onSuccess: Connected,
+	onFailure: ConnectionFailed,
+	keepAliveInterval: 10,
+	userName: username,
+	password: password});
+}
+
+/*Callback for successful MQTT connection */
+function Connected() {
+	console.log("Connected");
+	mqttClient.subscribe(subscription);
+}
+
+/*Callback for failed connection*/
+function ConnectionFailed(res) {
+	console.log("Connect failed:" + res.errorMessage);
+}
+
+/*Callback for lost connection*/
+function ConnectionLost(res) {
+	if (res.errorCode !== 0) {
+		console.log("Connection lost:" + res.errorMessage);
+		Connect();
+	}
+}
+
+/*Callback for incoming message processing */
+function MessageArrived(message) {
+	console.log(message.destinationName +" : " + message.payloadString);
+	switch(message.payloadString){
+		case "ON":
+			displayClass = "on";
+			break;
+		case "OFF":
+			displayClass = "off";
+			break;
+		default:
+			displayClass = "unknown";
+	}
+	var topic = message.destinationName.split("/");
+	if (topic.length == 3){
+		var ioname = topic[1];
+		console.log(ioname0);
+		//UpdateElement(ioname, displayClass);
+	}
+}
+    </script>
+
+
+</head>
+
+
+<body class="windowVus">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img class="logoBgModal" src="images/logoBgRed.svg" />
+                    <h4 class="featureVusWifiText">Wifi Trusted list</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="contentWifi">
+                    <!--Item 1-->
+                    <div class="wifiItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureWifi" src="images/vus_wifi.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">Bullguard-b5-Lorem-ipsum</p>
+                            <p class="wifiTextSmall">No password protected</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/unignore.svg">
+                        </div>
+
+                    </div>
+
+                    <!--Item 12-->
+                    <div class="wifiItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureWifi" src="images/vus_wifi.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">Bullguard-b5-Lorem-ipsum</p>
+                            <p class="wifiTextSmall">No WPA protection</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/unignore.svg">
+                        </div>
+
+                    </div>
+
+                    <!--Item 3-->
+                    <div class="wifiItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureWifi" src="images/vus_wifi.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">Bullguard-b5-Lorem-ipsum</p>
+                            <p class="wifiTextSmall">No password & WPA protection</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/unignore.svg">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Digital Drivers -->
+    <div class="modal fade" id="driversModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img class="logoBgModal" src="images/logoBgRed.svg" />
+                    <h4 class="featureVusWifiText">Digitally Unsigned Drivers</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="contentDriversModal">
+                    <div class="textDriversModal">The following files have not been digitally signed by microsoft:</div>
+
+                    <!--Item 1-->
+                    <div class="DriversItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">vpnobus.sys</p>
+                            <p class="wifiTextSmall">Type:System file</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/eyeIcon.svg">
+                        </div>
+                    </div>
+
+                    <!--Item 2-->
+                    <div class="DriversItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">vpnobus.sys</p>
+                            <p class="wifiTextSmall">Type:System file</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/eyeIcon.svg">
+                        </div>
+                    </div>
+
+                    <!--Item 3-->
+                    <div class="DriversItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">vpnobus.sys</p>
+                            <p class="wifiTextSmall">Type:System file</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/eyeIcon.svg">
+                        </div>
+                    </div>
+                    <!--Item 4-->
+                    <div class="DriversItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">vpnobus.sys</p>
+                            <p class="wifiTextSmall">Type:System file</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/eyeIcon.svg">
+                        </div>
+                    </div>
+                    <!--Item 5-->
+                    <div class="DriversItemList">
+                        <div class="boxIconWifi">
+                            <div>
+                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
+                            </div>
+                        </div>
+                        <div class="wifiTextBox">
+                            <p class="wifiText">vpnobus.sys</p>
+                            <p class="wifiTextSmall">Type:System file</p>
+                        </div>
+                        <div class="wifiUnignoreButton">
+                            <img src="images/eyeIcon.svg">
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="headerVus okHeader">
+    </div>
+
+    <!-- Sensors Data -->
+    <div class="sensorsRightColumn">
+        <!-- Temperature sensor-->
+        <div class="sensorIgnored sensorItem">
+            <!-- Icon Sensor -->
+            <div class="boxIcon">
+                <img class="statusShield" src="images/shield_ignored.png" />
+                <img  width="40" src="images/temperature.ico" />
+            </div>
+            <!-- Data sensor -->
+            <div class="featureVusText vusTextIgnored">
+                Temperature is not monitorized<br>
+                <span class="smallTextIgnored">(Turned off by the user)</span>
+            </div>
+            <!-- Button view -->
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#myModal">View temperature history</button>
+        </div>
+
+        <!-- Humidity sensor-->
+        <div class="sensorItem ">
+            <!-- Icon Sensor -->
+            <div class="boxIcon ">
+                <img class="statusShield" src="images/shield_safe.png" />
+                <img  width="40" src="images/humidity.png" />
+            </div>
+            <!-- Data sensor -->
+            <div class="featureVusText">
+                Humidity is %
+            </div>
+            <!-- Button view -->
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+        </div>
+
+        <!-- Pir sensor-->
+        <div class="sensorItem ">
+            <!-- Icon Sensor -->
+            <div class="boxIcon">
+                <img class="statusShield" src="images/shield_safe.png" />
+                <img  width="40" src="images/pir.ico" />
+            </div>
+            <!-- Data sensor -->
+            <div class="featureVusText">
+                Movment detected
+            </div>
+            <!-- Button view -->
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+        </div>
+
+        <!-- LPG sensor-->
+        <div class="sensorItem ">
+            <!-- Icon Sensor -->
+            <div class="boxIcon">
+                <img class="statusShield" src="images/shield_safe.png" />
+                <img  width="40" src="images/lpg.png" />
+            </div>
+            <div class="featureVusText">
+                LPG ppm concentration
+            </div>
+            <!-- Button view -->
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+        </div>
+
+        <!-- Smoke sensor-->
+        <div class="sensorItem ">
+            <!-- Icon Sensor -->
+            <div class="boxIcon">
+                <img class="statusShield" src="images/shield_safe.png" />
+                <img  width="40" src="images/smoke.ico" />
+            </div>
+            <!-- Data sensor -->
+            <div class="featureVusText">
+                Smoke ppm concentration
+            </div>
+            <!-- Button view -->
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+        </div>
+
+        <!-- CO sensor-->
+        <div class="sensorItem ">
+            <!-- Icon Sensor -->
+            <div class="boxIcon">
+                <img class="statusShield" src="images/shield_info.png" />
+                <img  width="40" src="images/co.png" />
+            </div>
+            <!-- Data sensor -->
+            <div class="featureVusText">
+                CO ppm concentration
+            </div>
+            <!-- Button view -->
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+        </div>
+
+    </div>
+
+    <div class="leftColVus fadeIn ">
+
+        <img class="statusVus" src="images/smart_home_safe.png">
+
+        <div class="sensorsTextStatus">Your home is safe</div>
+
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,460 @@
+.sensorItem {
+    margin-bottom: 15px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+    border-radius: 6.27px;
+    width: 100%;
+    height: 50px;
+    display: none;
+    align-items: center;
+}
+
+.sensorItem:hover {
+
+}
+
+
+.sensorsRightColumn {
+    top: 50px;
+    width: 460px;
+    margin-right: 20px;
+    float: right;
+    position: relative;
+}
+
+.leftColVus {
+    width: 356px;
+}
+
+.sensorIgnored {
+}
+
+
+
+.sensorsTextStatus {
+    font-family: Montserrat-Medium;
+    font-size: 22px;
+    color: #6F7F9C;
+    text-align: center;
+}
+
+.sensorModalButton {
+    padding: 5px 10px;
+    background: #FFFFFF;
+    box-shadow: 0 0 3px 0 rgba(46,46,46,0.21);
+    border-radius: 4px;
+    float: right;
+    position: absolute;
+    font-family: HelveticaNeue-Medium;
+    font-size: 12px;
+    color: #646161;
+    right: 8px;
+}
+
+.windowVus{
+width: 840px;
+height: 420px;
+position: relative;
+}
+
+.headerVus{}
+.infectedHeader{background-image: url(../images/attentionHeader.png);
+background-repeat: no-repeat;
+height: 28px;
+width: 100%}
+
+.boxLeft{/* Mask: */
+left: 56px;
+top: 100px;
+position: absolute;
+animation-duration: 1s;
+animation-delay: 0.6s;}
+
+
+.boxRight{
+width: 525px;
+height: 285px;
+background-color: #fff; 
+background-image: url("../images/shadowBot.png");
+background-position: right bottom; /*Positioning*/
+background-repeat: no-repeat;
+position:absolute;
+top: 60px;
+right: 56px;
+padding: 30px 30px 0px 70px;
+}
+
+.footerVus{position: absolute;
+right: 10px;
+bottom: 10px;
+border-top: 1px solid #eef0f4;
+width: 100%;
+display: none;
+}
+button{        border:none; outline: none;
+
+}
+.buttonVus{float: right;
+background: #00CFFD;
+border-radius: 4px;
+font-size: 14px;
+color: white;
+padding: 6px 18px;
+font-weight: bold;
+margin-top: 10px;
+}
+.font1red{/* HIGH IMPORTANCE: */
+font-family: Montserrat-Bold;
+font-size: 10px;
+color: #F65B6D;
+margin-top: 30px;}
+.font1orange{/* HIGH IMPORTANCE: */
+font-family: Montserrat-Bold;
+font-size: 10px;
+color: orange;
+margin-top: 30px;}
+
+.titleVus{/* Windows security upd: */
+font-family: Montserrat-Light;
+font-size: 23px;
+color: #6F7F9C;
+margin-bottom: 5px;
+line-height: 1.1;
+margin-bottom: 7px;}
+
+.bodyVus{/* If it is a trusted n: */
+opacity: 0.57;
+font-size: 15px;
+font-weight: 200;
+color: #9098A6;}
+p{margin:0}
+
+.buttonPrincipal{
+background: #00CFFD;
+box-shadow: 0 3px 3px 0 #D9F8FA;
+border-radius: 8px;
+color: #fff;
+font-size: 16px;
+outline: none;
+transition: 0.5s ease;
+padding: 12px 26px;
+}
+.buttonPrincipal:hover{
+box-shadow: 0 3px 3px 0 #B3C8E6;
+background-color: #07B6DD;
+transition: 0.5s ease;
+
+}
+.buttonSecundar{
+outline: none;
+
+border-radius: 8px;
+background: #FFFFFF;
+box-shadow: 0 0 3px 0 rgba(46,46,46,0.21);
+padding: 12px 32px;
+color: #666;
+font-size: 16px;
+font-weight: medium;
+font-weight: medium;
+}
+.buttonSecundar:hover{
+background-color: #FDFDFD;
+color:black;
+}
+.actionsVus{margin-top: 26px;}
+.statsVus{    border: 1px solid #F4F4F4;
+display: inline-flex;
+padding: 10px 12px;
+margin-top: 30px;
+width: 95%;
+font-size: 13px;
+color: #C0C0C0;}
+
+
+/* Material style */
+button {
+outline: none;
+
+border: none;
+cursor: pointer;
+color: white;
+border-style: none;}
+button:active {
+border: none;
+cursor: pointer;
+color: white;
+border-style: none;}
+
+/* Ripple magic */
+button{
+position: relative;
+overflow: hidden;
+}
+
+button:after {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 5px;
+height: 5px;
+background: rgba(255, 255, 255, .5);
+opacity: 0;
+border-radius: 100%;
+transform: scale(1, 1) translate(-50%);
+transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+0% {
+transform: scale(0, 0);
+opacity: 1;
+}
+20% {
+transform: scale(25, 25);
+opacity: 1;
+}
+100% {
+opacity: 0;
+transform: scale(40, 40);
+}
+}
+
+button:focus:not(:active)::after {
+animation: ripple 1s ease-out;
+}
+
+
+
+
+.fadeIn{    display: none;}
+.fadeInRight{    display: none;}
+
+.animated{-webkit-animation-duration: 1s;
+animation-duration: 1s;
+-webkit-animation-fill-mode: both;
+animation-fill-mode: both;}
+
+
+/*MainVUs*/
+.headerVus{}
+.okHeader{background-image: url(../images/okHeader.png);
+background-repeat: no-repeat;
+height: 28px;
+width: 100%}
+
+
+
+
+.vulnerableFeature {
+margin-bottom: 15px;
+background: #FFFFFF;
+border: 0 solid #F95767;
+box-shadow: 0 1px 5px 0 #FA5767;
+border-radius: 6.27px;
+width: 100%;
+height: 50px;
+display: none;
+align-items: center;
+transition: 0.5s ease;
+}
+.vulnerableFeature:hover{
+box-shadow: 0 2px 8px 0 #FA5767;
+cursor: pointer;
+transition: 0.5s ease;
+}
+
+.boxIcon{
+background: #F0F4F9;
+border-radius: 5px;  
+float: left;
+width: 40px;
+height: 40px;
+margin: 5px;
+/*    position: absolute;**/}
+.boxIconVul{background-color: #FEEFF0!important;}
+.featureVusText{
+font-family: Montserrat-Regular;
+font-size: 14px;
+color: #677897;
+line-height: 14px;
+margin-left: 20px;
+}
+.statusShield{
+margin-top: -4px;
+margin-left: 29px;
+position: absolute;
+
+}        
+.featureTextVul{color: #FC5564;}
+
+
+.viewVul{
+background: #FA5767;
+border-radius: 4px;
+float: right;
+position: absolute;
+right: 8px;
+opacity: 0.7;transition: 0.5s ease;        }
+.vulArrow{
+padding: 10px 9px 10px 11px;
+
+}
+
+
+
+.statusVus{
+z-index: 222;
+margin: 87px 0px 12px 62px;
+width: 236px;
+}
+
+.vulnerableFeature:hover>.viewVul {opacity: 1;
+transition: 0.5s ease;}
+
+
+
+
+
+/*SlideINRIGHT*/
+
+.fadeInRight {
+  animation-name: fadeInRight;
+  display: flex;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  }
+
+  @keyframes fadeInRight {
+  0% {
+  opacity: 0;
+  transform: translate3d(10%, 0, 0);
+  }
+  100% {
+  opacity: 1;
+  transform: none;
+  }
+  } 
+
+
+/*Main*/
+ 
+        
+        .vusTextIgnored{
+            color: #81A5B0;
+        }
+        .smallTextIgnored{font-size: 11px}
+        
+        .modal{    background-image:none !important;}
+        .modal-backdrop{background-color: white; }
+        .modal-dialog{
+            width: 440px;
+            height: 290px;
+            background: #FCFCFC;
+            box-shadow: 16px 15px 60px 0 rgba(78,94,127,0.26);
+            border-radius: 5px;}
+        .modal-content {
+            width: 440px;
+            }
+        .modal-header {
+            padding: 0;
+            border-bottom: none;
+            }
+        .featureVusWifiText{    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #677897;
+            display: inline-flex;}
+        
+        .logoBgModal{   
+            display: inline-flex;
+            float: left;
+        padding: 8px 0px 0 10px;}
+        
+        .modal-header .close {
+            padding: 4px 7px;
+            display: inline-flex;
+}
+        .contentWifi{
+            background: #FFFFFF;
+    border: 1px solid #E9E9E9;
+    border-radius: 5px;
+    margin-left: 10px;
+    width: 420px;
+    height: 245px;
+            padding: 10px;
+overflow-y: auto;} 
+
+.contentDriversModal{
+            background: #FFFFFF;
+    border: 1px solid #E9E9E9;
+    border-radius: 5px;
+    margin-left: 10px;
+    width: 420px;
+    height: 245px;
+    padding: 0px 0px 10px;
+overflow-y: auto;}
+.textDriversModal{
+    background-color: #FCFCFC;
+    border-bottom: 1px solid #E9E9E9;
+    padding: 8px;
+    border-radius: 4px 4px 0px 0px;
+    font-size: 12px;
+    color: #677897;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+        .wifiItemList{/* Rectangle 40: */
+background: #FFFFFF;
+box-shadow: 0 1px 4px 0 rgba(110,126,158,0.18);
+border-radius: 5px;
+        width: 100%;
+        height: 42px;
+margin-bottom: 10px}
+
+        .DriversItemList{/* Rectangle 40: */
+    background: #FFFFFF;
+    box-shadow: 0 1px 4px 0 rgba(110,126,158,0.18);
+    border-radius: 5px;
+    width: 95%;
+    height: 42px;
+    margin: 0px 0px 10px 10px;}
+        .wifiTextBox{
+padding-top: 8px;
+}
+.boxIconWifi{
+background: #F0F4F9;
+border-radius: 40px;
+float: left;
+width: 32px;
+height: 32px;
+margin: 5px 10px 0px 6px;
+}
+.wifiTextSmall{
+font-family: Roboto-Light;
+font-size: 11px;
+float: left;
+color: #81A5B0;
+}
+.iconVusFeatureWifi{    margin: 6px;
+width: 22px;}
+
+.iconVusFeatureDriver{    margin: 6px;
+width: 15px;}
+.wifiText{
+font-family: Roboto-Regular;
+font-size: 13px;
+color: #677897;
+text-align: left;
+line-height: 1.1;
+}
+.wifiUnignoreButton{    margin-right: 10px;
+float: right;
+padding: 6px;
+background-color: #f7f9fd;
+display: flex;
+margin-top: -14px;
+border-radius: 4px;
+cursor: pointer;}
+.wifiUnignoreButton:hover{   
+box-shadow: 0px 1px 3px rgba(0,0,0,0.3);}

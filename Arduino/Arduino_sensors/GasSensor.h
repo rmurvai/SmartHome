@@ -22,4 +22,5 @@ private:
     static float _co;
     static float _smoke;
     static unsigned long _lastReadTime;
+    float values[3];
 };

@@ -26,6 +26,9 @@ class SensorReader:
             raise ValueError("Serial connection not established")
 
         line = self.serial.readline().decode().strip()
+        if not line:
+            return None
+        
         try:
             data = json.loads(line)
         except json.JSONDecodeError:
@@ -61,7 +64,9 @@ async def main():
     config = configparser.ConfigParser()
     try:
         config.read("config.ini")
-
+    except Exception:
+        print("error reading config file")
+        
     # Configure logging
     logging.basicConfig(
         level=config.get("logging", "level", fallback="INFO"),
@@ -71,18 +76,18 @@ async def main():
 
 
     # Instantiate SensorReader and MqttPublisher objects
-    sensor_reader = SensorReader(config["serial"]["port"],
+    async with SensorReader(config["serial"]["port"],
                                   int(config["serial"]["baudrate"]),
-                                  int(config["serial"]["timeout"]))
-    mqtt_publisher = MqttPublisher(config["mqtt"]["host"],
+                            int(config["serial"]["timeout"])) as sensor_reader:
+        mqtt_publisher = MqttPublisher(config["mqtt"]["host"],
                                     int(config["mqtt"]["port"]),
                                     config["mqtt"]["username"],
                                     config["mqtt"]["password"])
 
-    # Start read and publish tasks
-    topic = config["mqtt"]["topic"]
-    tasks = [read_and_publish(sensor_reader, mqtt_publisher, topic)]
-    await asyncio.gather(*tasks)
+        # Start read and publish tasks
+        topic = config["mqtt"]["topic"]
+        tasks = [read_and_publish(sensor_reader, mqtt_publisher, topic)]
+        await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
     asyncio.run(main())
