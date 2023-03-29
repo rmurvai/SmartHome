@@ -59,7 +59,14 @@ In this project is used  [Mosquitto](https://mosquitto.org/download/)
 2. Install the application
 3. Go to the installation folder, open an elevated power shell and run `./mosquitto install` to install as a service
 4. Start the service with the prompt `sc start mosquitto`
-5. Edit the configuration file (`mosquitto.conf`) to add `allow_anonymous false`, `procotol websockets` and `password_file C:\Program Files\mosquitto\passwordfile.txt`
-6. Create an user with the following command `mosquitto_passwd -c passwordfile user` and when you are prompted to enter a password for the user enter the `test` as passwod(this is curently used in the config.ini file for the python)
+5. Edit the configuration file (`mosquitto.conf`) to add:
+ - `allow_anonymous false` in order to use user/password
+ - `listener 9001`
+ - `procotol websockets` for the web application
+ - `listenet 1883`
+ - `protocol mqtt` for python application 
+ - `socket_domain ipv4`
+ - `password_file C:\Program Files\mosquitto\smarthome.txt` where password is store encrypted and generated as below
+6. Create an user with the following command `mosquitto_passwd -c smarthome.txt user` and when you are prompted to enter a password for the user enter the `test` as passwod(this is curently used in the config.ini file for the python)
 
 ## Web Application
