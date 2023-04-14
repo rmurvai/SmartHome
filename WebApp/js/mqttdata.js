@@ -254,12 +254,17 @@ function MessageArrived(message) {
     var obj = JSON.parse(message.payloadString);
 
     var isAtRisk = false;
-    isAtRisk = isAtRisk || DisplayHumidityMeasurement(obj.dht22.humidity);
-    isAtRisk = isAtRisk || DisplayTemperatureMeasurement(obj.dht22.temperature);
-    isAtRisk = isAtRisk || DisplayLPGMeasurement(obj.mq2.lpg);
-    isAtRisk = isAtRisk || DisplaySmokeMeasurement(obj.mq2.smoke);
-    isAtRisk = isAtRisk || DisplayCOMeasurement(obj.mq2.co);
-        
+    var aux = DisplayHumidityMeasurement(obj.dht22.humidity);
+    isAtRisk = isAtRisk || aux; 
+    aux = DisplayTemperatureMeasurement(obj.dht22.temperature);
+    isAtRisk = isAtRisk || aux; 
+    aux = DisplayLPGMeasurement(obj.mq2.lpg);
+    isAtRisk = isAtRisk || aux; 
+    aux = DisplaySmokeMeasurement(obj.mq2.smoke);
+    isAtRisk = isAtRisk || aux; 
+    aux = DisplayCOMeasurement(obj.mq2.co);
+    isAtRisk = isAtRisk || aux; 
+
     if (isAtRisk) {
         $('#right_pic_safe').hide();
         $('#right_text_safe').hide();
