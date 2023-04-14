@@ -72,10 +72,16 @@ In this project is used  [Mosquitto](https://mosquitto.org/download/)
 ## Web Application
 For running the web application you just need to open the SensorData.html in a browser
 If you don't have data from sensors you should get the following page
-![image](https://user-images.githubusercontent.com/7062074/231910533-d1632c87-88c3-4ba0-b5b5-77717f00ceda.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/7062074/231910533-d1632c87-88c3-4ba0-b5b5-77717f00ceda.png">
+</p>
 The page for the running sensors is:
-![image](https://user-images.githubusercontent.com/7062074/231912101-0fa570ad-9e2c-4bd6-ab79-81b58a4f26b9.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/7062074/231912101-0fa570ad-9e2c-4bd6-ab79-81b58a4f26b9.png">
+</p>
 and at the risk:
-![image](https://user-images.githubusercontent.com/7062074/231912153-fa266391-17f6-4abb-836d-cea5157ba6b3.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/7062074/231912153-fa266391-17f6-4abb-836d-cea5157ba6b3.png">
+</p>
 
 
