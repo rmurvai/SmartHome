@@ -51,6 +51,33 @@
     right: 8px;
 }
 
+.connectionStatusFailed {
+    margin: 87px 0px 12px 62px;
+    margin-top: 7px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: #bc0000;
+}
+
+.connectionStatusOk {
+    margin: 87px 0px 12px 62px;
+    margin-top: 7px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: #009700;
+}
+
+.connectedText{
+    font-family: Montserrat-Regular;
+    width: 250px;
+    font-size: 18px;
+    color: #677897;
+    line-height: 14px;
+    margin-left: 20px;
+}
+
 .windowVus{
 width: 840px;
 height: 420px;

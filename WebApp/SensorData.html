@@ -15,6 +15,7 @@
 	<script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/mqttws31.js"></script>
+    <script src="js/mqttdata.js"></script>
 
     <!-- <script src="js/window.js"></script> -->
     <!-- <script src="js/main.js"></script> -->
@@ -62,68 +63,7 @@
             });
         });
 
-		 var hostname = "127.0.0.1";
-var port = 9001;
-var clientId = "webio4mqttexample";
-clientId += new Date().getUTCMilliseconds();;
-var username = "user";
-var password = "test";
-var subscription = "sensors/#";
-
-mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
-mqttClient.onMessageArrived = MessageArrived;
-mqttClient.onConnectionLost = ConnectionLost;
-Connect();
-
-/*Initiates a connection to the MQTT broker*/
-function Connect(){
-	mqttClient.connect({
-	onSuccess: Connected,
-	onFailure: ConnectionFailed,
-	keepAliveInterval: 10,
-	userName: username,
-	password: password});
-}
-
-/*Callback for successful MQTT connection */
-function Connected() {
-	console.log("Connected");
-	mqttClient.subscribe(subscription);
-}
-
-/*Callback for failed connection*/
-function ConnectionFailed(res) {
-	console.log("Connect failed:" + res.errorMessage);
-}
-
-/*Callback for lost connection*/
-function ConnectionLost(res) {
-	if (res.errorCode !== 0) {
-		console.log("Connection lost:" + res.errorMessage);
-		Connect();
-	}
-}
-
-/*Callback for incoming message processing */
-function MessageArrived(message) {
-	console.log(message.destinationName +" : " + message.payloadString);
-	switch(message.payloadString){
-		case "ON":
-			displayClass = "on";
-			break;
-		case "OFF":
-			displayClass = "off";
-			break;
-		default:
-			displayClass = "unknown";
-	}
-	var topic = message.destinationName.split("/");
-	if (topic.length == 3){
-		var ioname = topic[1];
-		console.log(ioname0);
-		//UpdateElement(ioname, displayClass);
-	}
-}
+        Connect();
     </script>
 
 
@@ -309,13 +249,18 @@ function MessageArrived(message) {
         <div class="sensorIgnored sensorItem">
             <!-- Icon Sensor -->
             <div class="boxIcon">
-                <img class="statusShield" src="images/shield_ignored.png" />
+                <img class="statusShield" style="display:none" src="images/shield_safe.png" id="temperature_safe"/>
+                <img class="statusShield" src="images/shield_ignored.png" id="temperature_ignored"/>
+                <img class="statusShield" style="display:none" src="images/shield_risk.png" id="temperature_risk"/>
                 <img  width="40" src="images/temperature.ico" />
             </div>
             <!-- Data sensor -->
-            <div class="featureVusText vusTextIgnored">
+            <div class="featureVusText" style="display:none" id="temperature">
+                Temperature is not monitored
+            </div>
+            <div class="featureVusText vusTextIgnored" id="temperature_text_off">
                 Temperature is not monitorized<br>
-                <span class="smallTextIgnored">(Turned off by the user)</span>
+                <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#myModal">View temperature history</button>
@@ -325,12 +270,18 @@ function MessageArrived(message) {
         <div class="sensorItem ">
             <!-- Icon Sensor -->
             <div class="boxIcon ">
-                <img class="statusShield" src="images/shield_safe.png" />
+                <img class="statusShield" style="display:none" src="images/shield_safe.png" id="humidity_safe"/>
+                <img class="statusShield" src="images/shield_ignored.png" id="humidity_ignored"/>
+                <img class="statusShield" style="display:none" src="images/shield_risk.png" id="humidity_risk"/>
                 <img  width="40" src="images/humidity.png" />
             </div>
             <!-- Data sensor -->
-            <div class="featureVusText">
-                Humidity is %
+            <div class="featureVusText" style="display:none" id="humidity">
+                Humidity is {0}%
+            </div>
+            <div class="featureVusText vusTextIgnored" id="humidity_text_off">
+                Humidity is not monitorized<br>
+                <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
@@ -340,12 +291,19 @@ function MessageArrived(message) {
         <div class="sensorItem ">
             <!-- Icon Sensor -->
             <div class="boxIcon">
-                <img class="statusShield" src="images/shield_safe.png" />
+                <img class="statusShield" style="display:none" src="images/shield_safe.png" id="pir_safe"/>
+                <img class="statusShield" src="images/shield_ignored.png" id="pir_ignored"/>
+                <img class="statusShield" style="display:none" src="images/shield_risk.png" id="pir_risk"/>
                 <img  width="40" src="images/pir.ico" />
             </div>
             <!-- Data sensor -->
-            <div class="featureVusText">
+            <div class="featureVusText" style="display:none" id="pir">
                 Movment detected
+            </div>
+            
+            <div class="featureVusText vusTextIgnored" id="pir_text_off">
+                Movement is not monitorized<br>
+                <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
@@ -355,11 +313,17 @@ function MessageArrived(message) {
         <div class="sensorItem ">
             <!-- Icon Sensor -->
             <div class="boxIcon">
-                <img class="statusShield" src="images/shield_safe.png" />
+                <img class="statusShield" style="display:none" src="images/shield_safe.png" id="lpg_safe"/>
+                <img class="statusShield" src="images/shield_ignored.png" id="lpg_ignored"/>
+                <img class="statusShield" style="display:none" src="images/shield_risk.png" id="lpg_risk"/>
                 <img  width="40" src="images/lpg.png" />
             </div>
-            <div class="featureVusText">
-                LPG ppm concentration
+            <div class="featureVusText" style="display:none" id="lpg">
+                LPG ppm concentration {}
+            </div>
+            <div class="featureVusText vusTextIgnored" id="lpg_text_off">
+                LPG is not monitorized<br>
+                <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
@@ -369,13 +333,20 @@ function MessageArrived(message) {
         <div class="sensorItem ">
             <!-- Icon Sensor -->
             <div class="boxIcon">
-                <img class="statusShield" src="images/shield_safe.png" />
+                <img class="statusShield" style="display:none" src="images/shield_safe.png" id="smoke_safe"/>
+                <img class="statusShield" src="images/shield_ignored.png" id="smoke_ignored"/>
+                <img class="statusShield" style="display:none" src="images/shield_risk.png" id="smoke_risk"/>
                 <img  width="40" src="images/smoke.ico" />
             </div>
             <!-- Data sensor -->
-            <div class="featureVusText">
+            <div class="featureVusText" style="display:none" id="smoke">
                 Smoke ppm concentration
             </div>
+            <div class="featureVusText vusTextIgnored" id="smoke_text_off">
+                Smoke is not monitorized<br>
+                <span class="smallTextIgnored">(Sensor turned off)</span>
+            </div>
+
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
         </div>
@@ -384,12 +355,18 @@ function MessageArrived(message) {
         <div class="sensorItem ">
             <!-- Icon Sensor -->
             <div class="boxIcon">
-                <img class="statusShield" src="images/shield_info.png" />
+                <img class="statusShield" style="display:none" src="images/shield_safe.png" id="co_safe"/>
+                <img class="statusShield" src="images/shield_ignored.png" id="co_ignored"/>
+                <img class="statusShield" style="display:none" src="images/shield_risk.png" id="co_risk"/>
                 <img  width="40" src="images/co.png" />
             </div>
             <!-- Data sensor -->
-            <div class="featureVusText">
+            <div class="featureVusText" style="display:none" id="co">
                 CO ppm concentration
+            </div>
+            <div class="featureVusText vusTextIgnored" id="co_text_off">
+                CO is not monitorized<br>
+                <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
@@ -398,13 +375,15 @@ function MessageArrived(message) {
     </div>
 
     <div class="leftColVus fadeIn ">
+        <div id="connectionStatus" class="connectionStatusFailed" ><div id="connectionString" class="connectedText">Disconnected</div></div>
+        <img class="statusVus" style="display:none" src="images/smart_home_safe.png" id="right_pic_safe">
+        <img class="statusVus" style="display:none" src="images/smart_home_risk.png" id="right_pic_risk">
+        <img class="statusVus" src="images/smart_home_ignore.png" id="right_pic_risk">
 
-        <img class="statusVus" src="images/smart_home_safe.png">
-
-        <div class="sensorsTextStatus">Your home is safe</div>
-
+        <div class="sensorsTextStatus" style="display:none" id="right_text_safe">Your home is safe</div>
+        <div class="sensorsTextStatus" style="display:none" id="right_text_risk">Your home is at risk</div>
+        <div class="sensorsTextStatus vusTextIgnored" id="right_text_ignored">Your home is not monitorized</div>
     </div>
-
 
 
 
