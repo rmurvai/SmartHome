@@ -246,7 +246,7 @@
     <!-- Sensors Data -->
     <div class="sensorsRightColumn">
         <!-- Temperature sensor-->
-        <div class="sensorIgnored sensorItem">
+        <div class="sensorIgnored sensorItem" id="temp_sensor">
             <!-- Icon Sensor -->
             <div class="boxIcon">
                 <img class="statusShield" style="display:none" src="images/shield_safe.png" id="temperature_safe"/>
@@ -264,10 +264,17 @@
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#myModal">View temperature history</button>
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_temp" tabindex="0" checked onclick="onoff_temp()">
+                <label class="onoffswitch-label lbl" for="myonoffswitch_temp">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
         </div>
 
         <!-- Humidity sensor-->
-        <div class="sensorItem ">
+        <div class="sensorItem " id="hum_sensor">
             <!-- Icon Sensor -->
             <div class="boxIcon ">
                 <img class="statusShield" style="display:none" src="images/shield_safe.png" id="humidity_safe"/>
@@ -285,10 +292,17 @@
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_hum" tabindex="0" checked onclick="onoff_hum()">
+                <label class="onoffswitch-label lbl" for="myonoffswitch_hum">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
         </div>
 
         <!-- Pir sensor-->
-        <div class="sensorItem ">
+        <div class="sensorItem " id="pir_sensor">
             <!-- Icon Sensor -->
             <div class="boxIcon">
                 <img class="statusShield" style="display:none" src="images/shield_safe.png" id="pir_safe"/>
@@ -307,10 +321,17 @@
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_pir" tabindex="0" checked onclick="onoff_pir()">
+                <label class="onoffswitch-label lbl" for="myonoffswitch_pir">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
         </div>
 
         <!-- LPG sensor-->
-        <div class="sensorItem ">
+        <div class="sensorItem " id="lpg_sensor">
             <!-- Icon Sensor -->
             <div class="boxIcon">
                 <img class="statusShield" style="display:none" src="images/shield_safe.png" id="lpg_safe"/>
@@ -327,10 +348,17 @@
             </div>
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_lpg" tabindex="0" checked onclick="onoff_lpg()">
+                <label class="onoffswitch-label lbl" for="myonoffswitch_lpg">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
         </div>
 
         <!-- Smoke sensor-->
-        <div class="sensorItem ">
+        <div class="sensorItem " id="smoke_sensor">
             <!-- Icon Sensor -->
             <div class="boxIcon">
                 <img class="statusShield" style="display:none" src="images/shield_safe.png" id="smoke_safe"/>
@@ -346,13 +374,22 @@
                 Smoke is not monitorized<br>
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
-
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+
+      
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_smoke" tabindex="0" checked onclick="onoff_smoke()">
+                <label class="onoffswitch-label lbl" for="myonoffswitch_smoke">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+
         </div>
 
         <!-- CO sensor-->
-        <div class="sensorItem ">
+        <div class="sensorItem " id="co_sensor">
             <!-- Icon Sensor -->
             <div class="boxIcon">
                 <img class="statusShield" style="display:none" src="images/shield_safe.png" id="co_safe"/>
@@ -368,8 +405,17 @@
                 CO is not monitorized<br>
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
+            
             <!-- Button view -->
             <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_co" tabindex="0" checked onclick="onoff_co()">
+                <label class="onoffswitch-label lbl" for="myonoffswitch_co">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
         </div>
 
     </div>

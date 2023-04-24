@@ -10,6 +10,129 @@
         mqttClient.onMessageArrived = MessageArrived;
         mqttClient.onConnectionLost = ConnectionLost;
 
+var co_state = true;
+function onoff_co() {
+    if (co_state) {
+        co_state = false;
+        $('#co_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch") == false) {
+                $(this).addClass('opacity20').removeClass('opacity100');
+            }
+        });
+
+    } else {
+        co_state = true;
+        $('#co_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch")== false) {
+                $(this).addClass('opacity100').removeClass('opacity20');
+            }
+        });
+    }
+}
+
+var smoke_state = true;
+function onoff_smoke() {
+    if (smoke_state) {
+        smoke_state = false;
+         $('#smoke_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch") == false) {
+                $(this).addClass('opacity20').removeClass('opacity100');
+            }
+        });
+        
+    } else {
+        smoke_state = true;
+        $('#smoke_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch")== false) {
+                $(this).addClass('opacity100').removeClass('opacity20');
+            }
+        });
+    }
+}
+
+
+var lpg_state = true;
+function onoff_lpg() {
+    if (lpg_state) {
+        lpg_state = false;
+        $('#lpg_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch") == false) {
+                $(this).addClass('opacity20').removeClass('opacity100');
+            }
+        });
+        
+    } else {
+        lpg_state = true;
+        $('#lpg_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch")== false) {
+                $(this).addClass('opacity100').removeClass('opacity20');
+            }
+        });
+    }
+}
+
+
+var pir_state = true;
+function onoff_pir() {
+    if (pir_state) {
+        pir_state = false;
+        $('#pir_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch") == false) {
+                $(this).addClass('opacity20').removeClass('opacity100');
+            }
+        });
+        
+    } else {
+        pir_state = true;
+        $('#pir_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch")== false) {
+                $(this).addClass('opacity100').removeClass('opacity20');
+            }
+        });
+    }
+}
+
+
+var hum_state = true;
+function onoff_hum() {
+    if (hum_state) {
+        hum_state = false;
+        $('#hum_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch") == false) {
+                $(this).addClass('opacity20').removeClass('opacity100');
+            }
+        });
+        
+    } else {
+        hum_state = true;
+        $('#hum_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch")== false) {
+                $(this).addClass('opacity100').removeClass('opacity20');
+            }
+        });
+    }
+}
+
+
+var temp_state = true;
+function onoff_temp() {
+    if (temp_state) {
+        temp_state = false;
+        $('#temp_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch") == false) {
+                $(this).addClass('opacity20').removeClass('opacity100');
+            }
+        });
+        
+    } else {
+        temp_state = true;
+        $('#temp_sensor').children().each(function () {
+            if ($(this).hasClass("onoffswitch")== false) {
+                $(this).addClass('opacity100').removeClass('opacity20');
+            }
+        });
+    }
+}
 
 /*Initiates a connection to the MQTT broker*/
 function Connect(){
@@ -254,16 +377,27 @@ function MessageArrived(message) {
     var obj = JSON.parse(message.payloadString);
 
     var isAtRisk = false;
-    var aux = DisplayHumidityMeasurement(obj.dht22.humidity);
-    isAtRisk = isAtRisk || aux; 
-    aux = DisplayTemperatureMeasurement(obj.dht22.temperature);
-    isAtRisk = isAtRisk || aux; 
-    aux = DisplayLPGMeasurement(obj.mq2.lpg);
-    isAtRisk = isAtRisk || aux; 
-    aux = DisplaySmokeMeasurement(obj.mq2.smoke);
-    isAtRisk = isAtRisk || aux; 
-    aux = DisplayCOMeasurement(obj.mq2.co);
-    isAtRisk = isAtRisk || aux; 
+    var aux;
+    if (hum_state) {
+        aux = DisplayHumidityMeasurement(obj.dht22.humidity);
+        isAtRisk = isAtRisk || aux;
+    }
+    if (temp_state) {
+        aux = DisplayTemperatureMeasurement(obj.dht22.temperature);
+        isAtRisk = isAtRisk || aux;
+    }
+    if (lpg_state) {
+        aux = DisplayLPGMeasurement(obj.mq2.lpg);
+        isAtRisk = isAtRisk || aux;
+    }
+    if (smoke_state) {
+        aux = DisplaySmokeMeasurement(obj.mq2.smoke);
+        isAtRisk = isAtRisk || aux;
+    }
+    if (co_state) {
+        aux = DisplayCOMeasurement(obj.mq2.co);
+        isAtRisk = isAtRisk || aux;
+    }
 
     if (isAtRisk) {
         $('#right_pic_safe').hide();

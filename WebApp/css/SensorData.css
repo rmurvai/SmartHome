@@ -29,7 +29,71 @@
 .sensorIgnored {
 }
 
+.opacity20{
+    opacity: 0.2;
+    pointer-events: none;
+}
+.opacity100{
+    opacity: 1;
+    pointer-events: all;
+}
+/*
+toggle
+*/
+    .onoffswitch {
+    position: absolute; width: 57px; right:8px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 18px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 18px; padding: 0; line-height: 18px;
+    font-size: 12px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    background-color: #33CC4D; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #FF0000; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 10px; margin: 4px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 35px;
+    border: 2px solid #999999; border-radius: 18px;
+    transition: all 0.3s ease-in 0s; 
+    box-sizing: unset !important;
+    -webkit-box-sizing: unset !important;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
 
+.lbl {
+margin-bottom: 0px !important;
+}
+/*end toggle*/
 
 .sensorsTextStatus {
     font-family: Montserrat-Medium;
@@ -48,7 +112,7 @@
     font-family: HelveticaNeue-Medium;
     font-size: 12px;
     color: #646161;
-    right: 8px;
+    right: 70px;
 }
 
 .connectionStatusFailed {
