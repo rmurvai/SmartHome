@@ -16,6 +16,13 @@
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/mqttws31.js"></script>
     <script src="js/mqttdata.js"></script>
+	<!-- <script src="https://code.jscharting.com/latest/jscharting.js"></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.3/Chart.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
 
     <!-- <script src="js/window.js"></script> -->
     <!-- <script src="js/main.js"></script> -->
@@ -63,7 +70,15 @@
             });
         });
 
-        Connect();
+        $(document).ready(function () {Connect();});
+
+        $(document).ready(function(){
+            chartTemp = CreateChartTemp();
+            chartCO = CreateChartCO();
+            chartLPG = CreateChartLPG();
+            chartSmoke = CreateChartSmoke();
+            chartPir = CreateChartPir();
+        })
     </script>
 
 
@@ -72,66 +87,19 @@
 
 <body class="windowVus">
     <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal fade" id="modalTempHumidity" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <img class="logoBgModal" src="images/logoBgRed.svg" />
-                    <h4 class="featureVusWifiText">Wifi Trusted list</h4>
+                    <img  width="20px" src="images/temperature.ico" />
+                    <h4 class="featureVusWifiText">Temperature and humidity</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="contentWifi">
-                    <!--Item 1-->
-                    <div class="wifiItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureWifi" src="images/vus_wifi.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">Bullguard-b5-Lorem-ipsum</p>
-                            <p class="wifiTextSmall">No password protected</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/unignore.svg">
-                        </div>
-
-                    </div>
-
-                    <!--Item 12-->
-                    <div class="wifiItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureWifi" src="images/vus_wifi.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">Bullguard-b5-Lorem-ipsum</p>
-                            <p class="wifiTextSmall">No WPA protection</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/unignore.svg">
-                        </div>
-
-                    </div>
-
-                    <!--Item 3-->
-                    <div class="wifiItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureWifi" src="images/vus_wifi.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">Bullguard-b5-Lorem-ipsum</p>
-                            <p class="wifiTextSmall">No password & WPA protection</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/unignore.svg">
-                        </div>
-
+				<canvas id="tempChart" style="width:100%;max-width:720px"></canvas>
+				
                     </div>
 
                 </div>
@@ -141,98 +109,86 @@
         </div>
     </div>
 
-    <!-- Modal Digital Drivers -->
-    <div class="modal fade" id="driversModal" role="dialog">
+    <div class="modal fade" id="modalCo" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <img class="logoBgModal" src="images/logoBgRed.svg" />
-                    <h4 class="featureVusWifiText">Digitally Unsigned Drivers</h4>
+                    <img width="20px" src="images/co.png" />
+                    <h4 class="featureVusWifiText">CO sensor</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="contentDriversModal">
-                    <div class="textDriversModal">The following files have not been digitally signed by microsoft:</div>
-
-                    <!--Item 1-->
-                    <div class="DriversItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">vpnobus.sys</p>
-                            <p class="wifiTextSmall">Type:System file</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/eyeIcon.svg">
-                        </div>
+                <div class="contentWifi">
+				<canvas id="coChart" style="width:100%;max-width:720px"></canvas>
+				
                     </div>
 
-                    <!--Item 2-->
-                    <div class="DriversItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">vpnobus.sys</p>
-                            <p class="wifiTextSmall">Type:System file</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/eyeIcon.svg">
-                        </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+        <div class="modal fade" id="modalLpg" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img width="20px" src="images/lpg.png" />
+                    <h4 class="featureVusWifiText">LPG sensor</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="contentWifi">
+				<canvas id="lpgChart" style="width:100%;max-width:720px"></canvas>
+				
                     </div>
 
-                    <!--Item 3-->
-                    <div class="DriversItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">vpnobus.sys</p>
-                            <p class="wifiTextSmall">Type:System file</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/eyeIcon.svg">
-                        </div>
-                    </div>
-                    <!--Item 4-->
-                    <div class="DriversItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">vpnobus.sys</p>
-                            <p class="wifiTextSmall">Type:System file</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/eyeIcon.svg">
-                        </div>
-                    </div>
-                    <!--Item 5-->
-                    <div class="DriversItemList">
-                        <div class="boxIconWifi">
-                            <div>
-                                <img class="iconVusFeatureDriver" src="images/vus_driverList.svg" />
-                            </div>
-                        </div>
-                        <div class="wifiTextBox">
-                            <p class="wifiText">vpnobus.sys</p>
-                            <p class="wifiTextSmall">Type:System file</p>
-                        </div>
-                        <div class="wifiUnignoreButton">
-                            <img src="images/eyeIcon.svg">
-                        </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+        <div class="modal fade" id="modalSmoke" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img width="20px" src="images/smoke.ico" />
+                    <h4 class="featureVusWifiText">Smoke sensor</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="contentWifi">
+				<canvas id="smokeChart" style="width:100%;max-width:720px"></canvas>
+				
                     </div>
 
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+        <div class="modal fade" id="modalPir" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img width="20px" src="images/Pir.ico" />
+                    <h4 class="featureVusWifiText">Movement sensor</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="contentWifi">
+				<canvas id="pirChart" style="width:100%;max-width:720px"></canvas>
+				
+                    </div>
 
                 </div>
 
@@ -263,7 +219,7 @@
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
-            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#myModal">View temperature history</button>
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#modalTempHumidity">View chart</button>
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_temp" tabindex="0" checked onclick="onoff_temp()">
                 <label class="onoffswitch-label lbl" for="myonoffswitch_temp">
@@ -291,7 +247,7 @@
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
-            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#modalTempHumidity">View chart</button>
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_hum" tabindex="0" checked onclick="onoff_hum()">
                 <label class="onoffswitch-label lbl" for="myonoffswitch_hum">
@@ -320,7 +276,7 @@
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
-            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#modalPir">View chart</button>
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_pir" tabindex="0" checked onclick="onoff_pir()">
                 <label class="onoffswitch-label lbl" for="myonoffswitch_pir">
@@ -347,7 +303,7 @@
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
-            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#modalLpg">View chart</button>
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_lpg" tabindex="0" checked onclick="onoff_lpg()">
                 <label class="onoffswitch-label lbl" for="myonoffswitch_lpg">
@@ -375,7 +331,7 @@
                 <span class="smallTextIgnored">(Sensor turned off)</span>
             </div>
             <!-- Button view -->
-            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#modalSmoke">View chart</button>
 
       
             <div class="onoffswitch">
@@ -407,7 +363,7 @@
             </div>
             
             <!-- Button view -->
-            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#driversModal">View</button>
+            <button type="button" class="sensorModalButton" data-toggle="modal" data-target="#modalCo">View chart</button>
 
             <div class="onoffswitch">
                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch_co" tabindex="0" checked onclick="onoff_co()">

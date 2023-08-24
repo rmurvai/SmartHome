@@ -1,4 +1,5 @@
 #include "MotionSensor.h"
+#include "Arduino.h" 
 
 MotionSensor::MotionSensor(int pirPin, int ledPin)
 {

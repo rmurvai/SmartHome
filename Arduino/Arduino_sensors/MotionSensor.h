@@ -1,6 +1,5 @@
 #pragma once
-#include <DHT.h>
-
+#define ARDUINO 101
 //
 // class for PIR motion sensor
 //
@@ -42,8 +41,8 @@ private:
 	//before we assume all motion has stopped
 	long unsigned int pause = 5000;
 
-	boolean lockLow = true;
-	boolean takeLowTime = false;
+	bool lockLow = true;
+	bool takeLowTime = false;
 
 	int _ledPin;
 	int _pirPin;

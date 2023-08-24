@@ -39,7 +39,7 @@ float* DHT22Sensor::Read(bool print)
 	{
 		Serial.print("Temperature:");
 		Serial.print(_temperature);
-        Serial.print(" ");
+    Serial.print(" ");
 		Serial.print("Humidity");
 		Serial.print(_humidity);
 		Serial.print("\n");

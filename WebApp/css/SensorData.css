@@ -144,7 +144,7 @@ margin-bottom: 0px !important;
 
 .windowVus{
 width: 840px;
-height: 420px;
+height: 740px;
 position: relative;
 }
 
@@ -439,13 +439,13 @@ transition: 0.5s ease;}
         .modal{    background-image:none !important;}
         .modal-backdrop{background-color: white; }
         .modal-dialog{
-            width: 440px;
-            height: 290px;
+            width: 740px;
+            height: 490px;
             background: #FCFCFC;
             box-shadow: 16px 15px 60px 0 rgba(78,94,127,0.26);
             border-radius: 5px;}
         .modal-content {
-            width: 440px;
+            width: 740px;
             }
         .modal-header {
             padding: 0;
@@ -470,8 +470,8 @@ transition: 0.5s ease;}
     border: 1px solid #E9E9E9;
     border-radius: 5px;
     margin-left: 10px;
-    width: 420px;
-    height: 245px;
+    width: 720px;
+    height: 370px;
             padding: 10px;
 overflow-y: auto;} 
 
@@ -480,7 +480,7 @@ overflow-y: auto;}
     border: 1px solid #E9E9E9;
     border-radius: 5px;
     margin-left: 10px;
-    width: 420px;
+    width: 740px;
     height: 245px;
     padding: 0px 0px 10px;
 overflow-y: auto;}
