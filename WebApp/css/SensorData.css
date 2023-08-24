@@ -15,7 +15,7 @@
 
 
 .sensorsRightColumn {
-    top: 50px;
+    top: 24px;
     width: 460px;
     margin-right: 20px;
     float: right;
@@ -549,3 +549,31 @@ border-radius: 4px;
 cursor: pointer;}
 .wifiUnignoreButton:hover{   
 box-shadow: 0px 1px 3px rgba(0,0,0,0.3);}
+
+.loginStyle{
+        padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 40px;
+}
+
+.loginText {
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #677897;
+    line-height: 14px;
+}
+
+.buttonLogin{
+background-color: #04AA6D;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.buttonLogin:hover {
+  opacity: 0.8;
+}
+.grayscaleblur {
+  filter: blur(3px) grayscale(100%);
+}

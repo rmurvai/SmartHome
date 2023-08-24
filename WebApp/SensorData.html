@@ -70,7 +70,7 @@
             });
         });
 
-        $(document).ready(function () {Connect();});
+        //$(document).ready(function () {Connect();});
 
         $(document).ready(function(){
             chartTemp = CreateChartTemp();
@@ -78,6 +78,15 @@
             chartLPG = CreateChartLPG();
             chartSmoke = CreateChartSmoke();
             chartPir = CreateChartPir();
+        })
+
+        $(document).ready(function(){
+            $('#password').keypress(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if(keycode == '13'){
+                    Login();
+                }
+            });
         })
     </script>
 
@@ -197,10 +206,12 @@
         </div>
     </div>
     <div class="headerVus okHeader">
+        
+    <div id="connectionStatus" class="connectionStatusFailed" ><div id="connectionString" class="connectedText">Disconnected</div></div>
     </div>
 
     <!-- Sensors Data -->
-    <div class="sensorsRightColumn">
+    <div class="sensorsRightColumn grayscaleblur" id="sensors">
         <!-- Temperature sensor-->
         <div class="sensorIgnored sensorItem" id="temp_sensor">
             <!-- Icon Sensor -->
@@ -376,8 +387,7 @@
 
     </div>
 
-    <div class="leftColVus fadeIn ">
-        <div id="connectionStatus" class="connectionStatusFailed" ><div id="connectionString" class="connectedText">Disconnected</div></div>
+    <div class="leftColVus fadeIn grayscaleblur" id="left_pic">
         <img class="statusVus" style="display:none" src="images/smart_home_safe.png" id="right_pic_safe">
         <img class="statusVus" style="display:none" src="images/smart_home_risk.png" id="right_pic_risk">
         <img class="statusVus" src="images/smart_home_ignore.png" id="right_pic_ignored">
@@ -387,8 +397,13 @@
         <div class="sensorsTextStatus vusTextIgnored" id="right_text_ignored">Your home is not monitorized</div>
     </div>
 
-
-
+    <div class="loginStyle" id="logindiv">   
+            <label class="loginText">Username : </label>   
+            <input type="text" placeholder="Enter Username" name="username" required id="username">  
+            <label class="loginText">Password : </label>   
+            <input type="password" placeholder="Enter Password" name="password" required id="password">  
+            <button type="submit" class="buttonLogin" onclick="Login()">Login</button>   
+        </div>  
 
 
 </body>

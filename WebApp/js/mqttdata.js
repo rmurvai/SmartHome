@@ -1,14 +1,24 @@
-		var hostname = "127.0.0.1";
-        var port = 9001;
-        var clientId = "licentaFmi";
-        clientId += new Date().getUTCMilliseconds();
-        var username = "user";
-        var password = "test";
-        var subscription = "sensors/#";
-
-        mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
-        mqttClient.onMessageArrived = MessageArrived;
+var hostname = "127.0.0.1";
+var port = 9001;
+var clientId = "licentaFmi";
+clientId += new Date().getUTCMilliseconds();
+var username = "";
+var password = "";
+var subscription = "sensors/#";
+    
+mqttClient = new Paho.MQTT.Client(hostname, port, clientId);
+mqttClient.onMessageArrived = MessageArrived;
 mqttClient.onConnectionLost = ConnectionLost;
+    
+function Login()
+{
+    password = $('#password').val() || null;
+    username = $('#username').val() || null;
+  
+    Connect();
+}
+
+
 
 
 var max_sample = 30;
@@ -402,14 +412,30 @@ function Connected() {
     $('#connectionStatus').addClass('connectionStatusOk').removeClass('connectionStatusFailed');
     $('#connectionString').text('Connected to mqtt server');
 	console.log("Connected");
-	mqttClient.subscribe(subscription);
+    mqttClient.subscribe(subscription);
+    if ($('#left_pic').hasClass("grayscaleblur") == true) {
+        $('#left_pic').removeClass('grayscaleblur');
+    }
+    if ($('#sensors').hasClass("grayscaleblur") == true) {
+        $('#sensors').removeClass('grayscaleblur');
+    }
+    $('#logindiv').hide();
 }
 
 /*Callback for failed connection*/
 function ConnectionFailed(res) {
     $('#connectionStatus').addClass('connectionStatusFailed').removeClass('connectionStatusOk');
-    $('#connectionString').text('Disconnected from mqtt server');
-	console.log("Connect failed:" + res.errorMessage);
+    $('#connectionString').text('Failed to connect to mqtt server');
+    console.log("Connect failed:" + res.errorMessage);
+    $('#password').val('');
+    $('#username').val('');
+    if ($('#left_pic').hasClass("grayscaleblur") == false) {
+        $('#left_pic').addClass('grayscaleblur');
+    }
+    if ($('#sensors').hasClass("grayscaleblur") == false) {
+        $('#sensors').addClass('grayscaleblur');
+    }
+    $('#logindiv').show();
 }
 
 /*Callback for lost connection*/
