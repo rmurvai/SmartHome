@@ -6,8 +6,10 @@ import asyncio
 import paho.mqtt.client as mqtt
 from serial import Serial
 import requests
-
-ifttt_url = "https://maker.ifttt.com/trigger/{}/json/with/key/{}"
+import smtplib
+import ssl
+from email.message import EmailMessage
+import datetime
 
 class SensorReader:
     def __init__(self, port, baudrate, timeout):
@@ -41,11 +43,20 @@ class SensorReader:
         return data
 
 class WebPublisher:
-    def __init__(self, host, port, username, password, key):
+    def __init__(self, host, port, username, password, mail_key, mail_from, mail_to, notificationTime):
         self.client = mqtt.Client()
         self.client.username_pw_set(username, password)
         self.client.connect(host, port)
-        self.key = key 
+        self.mail_key = mail_key 
+        self.mail_from = mail_from
+        self.mail_to = mail_to
+        self.tempLastSend = -1
+        self.humidityLastSend = -1
+        self.pirLastSend = -1
+        self.lpgLastSend = -1
+        self.smokeLastSend = -1
+        self.coLastSend = -1
+        self.notificationTime = notificationTime
 
     def processData(self, data):
         dict = {'dht22':
@@ -64,7 +75,7 @@ class WebPublisher:
         payload = json.dumps(data)
         processed_json = self.processData(data)
         # logic to send to ifttt data
-        self.logicIfttt(processed_json)
+        self.notificationLogic(processed_json)
 
         # logic to send data to mqtt
         for i in range(max_retries):
@@ -76,29 +87,54 @@ class WebPublisher:
         logging.error("Max retries (%d) exceeded, giving up on publishing to %s", max_retries, topic)
         return False
     
-    def sendToIfttt(self, event_name, data):
-        response = requests.post(ifttt_url.format(event_name, self.key), json=json.loads(data))
-        print(response.text)
-        return response.ok
     
-    def logicIfttt(self, data):
+    def sendMail(self, subject, message):
+        port = 465  # For SSL
+        smtp_server = "smtp.gmail.com"
+        #password = input("Type your password and press enter: ")
+
+        msg = EmailMessage()
+        msg['Subject'] = subject
+        msg['From'] = self.mail_from
+        msg['To'] = self.mail_to
+
+        # Set the content of the email message
+        msg.set_content(message)
+
+        context = ssl.create_default_context()
+        try:
+            with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+                server.login(self.mail_from, self.mail_key)
+                server.send_message(msg)
+        except smtplib.SMTPException:
+            print("Error: unable to send email")
+    
+    def notificationLogic(self, data):
         data = json.loads(data)
-        if data["dht22"]["temperature"]["risk"]:
-            self.sendToIfttt("temp_alert", json.dumps({'temperature': data["dht22"]["temperature"]["value"]}))
+        if data["dht22"]["temperature"]["risk"] and (self.tempLastSend == -1 or time.time() - self.tempLastSend > self.notificationTime):
+            self.tempLastSend = time.time()
+            message = f'S-a declansat alerta pentru temperatura la data de {datetime.datetime.now()}. Valoarea temperaturi este {data["dht22"]["temperature"]["value"]}'
+            self.sendMail("Alerta temperatura!", message)
         
-        if data["dht22"]["humidity"]["risk"]:
-            self.sendToIfttt("humidity_alert", json.dumps({'humidity': data["dht22"]["humidity"]["value"]}))
+        if data["dht22"]["humidity"]["risk"] and (self.humidityLastSend == -1 or time.time() - self.humidityLastSend > self.notificationTime):
+            self.humidityLastSend = time.time()
+            message = f'S-a declansat alerta pentru umiditate la data de {datetime.datetime.now()}. Valoarea umiditatii este {data["dht22"]["humidity"]["value"]}%'
+            self.sendMail("Alerta umiditate!", message)
 
-        if data["mq2"]["lpg"]["risk"]:
-            self.sendToIfttt("lpg_alert", json.dumps({'lpg': data["mq2"]["lpg"]["value"]}))
+        if data["mq2"]["lpg"]["risk"] and (self.lpgLastSend == -1 or time.time() - self.lpgLastSend > self.notificationTime):
+            self.lpgLastSend = time.time()
+            message = f'S-a declansat alerta pentru nivel crescut de particule de gaz petrolier lichefiat la data de {datetime.datetime.now()}. Valoarea lpg este {data["mq2"]["lpg"]["value"]} ppm'
+            self.sendMail("Alerta depasire nivel particule de gaz petrolier lichefiat!", message)
 
-        if data["mq2"]["co"]["risk"]:
-            self.sendToIfttt("co_alert", json.dumps({'co': data["mq2"]["co"]["value"]}))
+        if data["mq2"]["co"]["risk"] and (self.coLastSend == -1 or time.time() - self.coLastSend > self.notificationTime):
+            self.coLastSend = time.time()
+            message = f'S-a declansat alerta pentru nivel crescut de particule de monoxid de carbon la data de {datetime.datetime.now()}. Valoarea lpg este {data["mq2"]["co"]["value"]} ppm'
+            self.sendMail("Alerta depasire nivel particule de monoxid de carbon!", message)
 
-        if data["mq2"]["smoke"]["risk"]:
-            self.sendToIfttt("smoke_alert", json.dumps({'smoke': data["mq2"]["smoke"]["value"]}))
-
-
+        if data["mq2"]["smoke"]["risk"] and (self.smokeLastSend == -1 or time.time() - self.smokeLastSend > self.notificationTime):
+            self.smokeLastSend = time.time()
+            message = f'S-a declansat alerta pentru nivel crescut de particule de fum la data de {datetime.datetime.now()}. Valoarea lpg este {data["mq2"]["smoke"]["value"]} ppm'
+            self.sendMail("Alerta depasire nivel particule de fum!", message)
 
 async def read_and_publish(sensor_reader, mqtt_publisher, topic):
     while True:
@@ -122,13 +158,16 @@ async def main():
 
     # Instantiate SensorReader and MqttPublisher objects
     async with SensorReader(config["serial"]["port"],
-                                  int(config["serial"]["baudrate"]),
+                            int(config["serial"]["baudrate"]),
                             int(config["serial"]["timeout"])) as sensor_reader:
         mqtt_publisher = WebPublisher(config["mqtt"]["host"],
                                     int(config["mqtt"]["port"]),
                                     config["mqtt"]["username"],
                                     config["mqtt"]["password"],
-                                    config["ifttt"]["key"])
+                                    config["mail"]["key"],
+                                    config["mail"]["from"],
+                                    config["mail"]["to"],
+                                    int(config["mail"]["notificationTime"]))
 
         # Start read and publish tasks
         topic = config["mqtt"]["topic"]
