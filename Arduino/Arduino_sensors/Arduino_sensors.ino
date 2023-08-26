@@ -17,15 +17,14 @@ void setup() {
     Serial.begin( 9600 );
     tempAndHumiditySensor.Begin();
     gasSensor.Begin();
-    motionSensor.Begin(false);
+    motionSensor.Begin();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   float* gas = gasSensor.Read(false);
   float* temp = tempAndHumiditySensor.Read(false);
-  motionSensor.MotionDetected(false);
-  motionSensor.MotionEnded(false);
+  bool motionDetected = motionSensor.ReadPIR(false);
   
  //construct json
   StaticJsonDocument<200> doc;
@@ -38,6 +37,8 @@ void loop() {
   mq2["lpg"] = gas[0];
   mq2["co"] = gas[1];
   mq2["smoke"] = gas[2];
+  JsonObject pir = doc.createNestedObject("pir");
+  pir["movement"] = motionDetected;
 
   Serial.println();
   serializeJson(doc, Serial); 

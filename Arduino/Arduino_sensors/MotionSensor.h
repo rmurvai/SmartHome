@@ -1,35 +1,19 @@
 #pragma once
 #define ARDUINO 101
+#include "SensorInterface.h"
 //
 // class for PIR motion sensor
 //
-class MotionSensor {
+class MotionSensor: public ISensor {
 public:
-	//
-	// Constructor
-	//
 	MotionSensor(int pin, int ledPin);
-
-	//
-	// MotionDetected function
-	//
-	bool MotionDetected(bool print);
-
-	//
-	// MotionEnded function
-	//
-	bool MotionEnded(bool print);
-
-	//
-	// Begin |start calibration|
-	//
-	void                Begin(bool print);
+  
+  void Begin() override;
+  bool ReadPIR(bool print = false) override;
+  float *Read(bool print = false) override{ float* f= nullptr; return f;};
 
 private:
-
-	//
 	// PIRCalibration
-	//
 	void				PIRCalibration(bool print);
 
 	int CALIBARAION_SAMPLE_TIMES = 30; //the time we give the sensor to calibrate (10-60 secs according to the datasheet)

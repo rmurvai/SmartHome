@@ -52,6 +52,10 @@ map_co.push({ x: new Date(), y: 0 });
 var map_smoke = new Array();
 map_smoke.push({ x: new Date(), y: 0 });
 
+var map_pir = new Array();
+map_lpg.push({ x: new Date(), y: 0 });
+
+
 function CreateChartTemp() {
     var ctx = document.getElementById('tempChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -239,7 +243,7 @@ function CreateChartPir() {
         data: {
             labels: map_timePir,
             datasets: [{
-                data: map_lpg,
+                data: map_pir,
                 label: 'Movement',
                 type: 'bar',
                 backgroundColor: 'rgba(0,0,0,0.1)',
@@ -247,8 +251,9 @@ function CreateChartPir() {
             }]
         },
         options: {
-            animation: false,
-            responsive: true,
+            legend: {
+                display: false
+            },
             scales: {
                 xAxes: [{
                     scaleLabel: {
@@ -260,12 +265,17 @@ function CreateChartPir() {
                         minRotation: 90
                     }
                 }],
-                yAxes: {
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Movement'
-                    },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 1,
+                        stepSize: 1
+                },
+                gridLines: {
+                    display: false
                 }
+            }]
             }
         }
     });
@@ -631,6 +641,43 @@ function DisplayCOMeasurement(data)
     return isAtRisk;
 }
 
+function DisplayPirMeasurement(data)
+{
+    var isAtRisk = false;
+    if (data == undefined) {
+        $('#pir_safe').hide();
+        $('#pir_ignored').show();
+        $('#pir_risk').hide();
+        $('#pir').hide();
+        $('#pir_text_off').show();
+        
+        isAtRisk = false;
+    }
+    else {
+        var text = 'Movement is {0}';
+        text = text.replace('{0}', data.value);
+        $('#pir').html(text);
+        if (data.risk) {
+        
+            $('#pir_safe').hide();
+            $('#pir_ignored').hide();
+            $('#pir_risk').show();
+            $('#pir').show();
+            $('#pir_text_off').hide();    
+            isAtRisk = true;
+        }
+        else {
+            $('#pir_safe').show();
+            $('#pir_ignored').hide();
+            $('#pir_risk').hide();
+            $('#pir').show();
+            $('#pir_text_off').hide();
+            isAtRisk = false;
+        }
+    }
+    return isAtRisk;
+}
+
 
 /*Callback for incoming message processing */
 function MessageArrived(message) {
@@ -698,6 +745,19 @@ function MessageArrived(message) {
         map_timeCO.push(moment().format('LTS'));
 
         chartCO.update();
+
+        isAtRisk = isAtRisk || aux;
+    }
+    if (pir_state) {
+        aux = DisplayPirMeasurement(obj.pir.movement);
+        if (map_pir.length >= max_sample) {
+            map_pir.shift();
+            map_timePir.shift();
+        }
+        map_pir.push(obj.pir.movement.value);
+        map_timePir.push(moment().format('LTS'));
+
+        chartPir.update();
 
         isAtRisk = isAtRisk || aux;
     }

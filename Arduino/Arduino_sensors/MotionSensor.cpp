@@ -7,14 +7,14 @@ MotionSensor::MotionSensor(int pirPin, int ledPin)
 	_ledPin = ledPin;
 }
 
-void MotionSensor::Begin(bool print)
+void MotionSensor::Begin()
 {
 	// PIR movement sensor setup
 	pinMode(_pirPin, INPUT);
 	pinMode(_ledPin, OUTPUT);
 	digitalWrite(_pirPin, LOW);
 
-	PIRCalibration(print);
+	PIRCalibration(false);
 }
 
 void MotionSensor::PIRCalibration(bool print)
@@ -33,7 +33,7 @@ void MotionSensor::PIRCalibration(bool print)
 	
 }
 
-bool MotionSensor::MotionDetected(bool print)
+bool MotionSensor::ReadPIR(bool print)
 {
 	if (digitalRead(_pirPin) == HIGH)
 	{
@@ -55,13 +55,7 @@ bool MotionSensor::MotionDetected(bool print)
 
 		return true;
 	}
-
-	return false;
-}
-
-bool MotionSensor::MotionEnded(bool print)
-{
-	if (digitalRead(_pirPin) == LOW)
+  else 	if (digitalRead(_pirPin) == LOW)
 	{
 		digitalWrite(_ledPin, LOW);  //the led visualizes the sensors output pin state
 
@@ -79,14 +73,16 @@ bool MotionSensor::MotionEnded(bool print)
 			lockLow = true;
 			if (print)
 			{
+        Serial.println("---");
 				Serial.print("motion ended at ");      //output
 				Serial.print((millis() - pause) / 1000);
 				Serial.println(" sec");
 			}
 			delay(50);
+
 		}
 
-		return true;
+		return false;
 	}
 
 	return false;

@@ -11,6 +11,7 @@ public:
 
 	void Begin() override;
 	float* Read(bool print = false) override;
+  bool ReadPIR(bool print = false) override{return false;};
 
 private:
 	DHT* _dht;

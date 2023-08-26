@@ -15,6 +15,7 @@ public:
 
     void Begin() override;
     float *Read(bool print = false) override;
+    bool ReadPIR(bool print = false) override{return false;};
 
 private:
     MQ2 *_mq2;

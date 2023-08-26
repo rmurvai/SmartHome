@@ -67,7 +67,8 @@ class WebPublisher:
                 'mq2': {'lpg': {'value': data["mq2"]["lpg"], 'risk': False if data["mq2"]["lpg"] < 100 else True},
                         'co': {'value': data["mq2"]["co"], 'risk': False if data["mq2"]["co"] < 100 else True},
                         'smoke': {'value': data["mq2"]["smoke"], 'risk': False if data["mq2"]["smoke"] < 100 else True}
-                        }}
+                        },
+                'pir':{'movement':{'value':data["pir"]["movement"], 'risk':data["pir"]["movement"]}}}
 
         return json.dumps(dict)
     
@@ -137,6 +138,11 @@ class WebPublisher:
             self.smokeLastSend = time.time()
             message = f'S-a declansat alerta pentru nivel crescut de particule de fum la data de {datetime.datetime.now()}. Valoarea lpg este {data["mq2"]["smoke"]["value"]} ppm'
             self.sendMail("Alerta depasire nivel particule de fum!", message)
+
+        if data["pir"]["movement"]["risk"] and (self.pirLastSend == -1 or time.time() - self.pirLastSend > self.notificationTime):
+            self.pirLastSend  = time.time()
+            message = f'S-a declansat alerta pentru detectie de miscare la data de {datetime.datetime.now()}.'
+            self.sendMail("Alerta detectie miscare!", message)
 
 def CreateGui(config):
     sg.theme('BlueMono')
