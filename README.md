@@ -27,6 +27,9 @@ Json example:
     "lpg": 0.2,
     "co": 0,
     "smoke": 0.66
+  },
+  "pir":{
+	"movement": true
   }
 }
 ```

@@ -193,23 +193,31 @@ def CreateGui(config):
     return window
 
 def LoadDefaults(config):
-    config["serial"]["port"] = 'COM3'
-    config["serial"]["baudrate"] = '9600'
-    config["serial"]["timeout"] = '1'
-    config["serial"]["isTest"] = 'true'
+    config["serial"] = {
+        "port" : 'COM3',
+        "baudrate" : '9600',
+        "timeout" : '1',
+        "isTest" : 'true'
+    }
 
-    config["mqtt"]["host"]='localhost'
-    config["mqtt"]["port"]='1883'
-    config["mqtt"]["username"]='user'
-    config["mqtt"]["password"]='test'
-    config["mqtt"]["topic"] = 'sensors'
+    config["mqtt"] = {
+        "host" : 'localhost',
+        "port" : '1883',
+        "username" : 'user',
+        "password" : 'test',
+        "topic" : 'sensors'
+    }
 
-    config["logging"]["level"] = 'INFO'
+    config["logging"] = {
+        "level" : 'INFO'
+    }
 
-    config["mail"]["from"] = 'alertasenzoriarduino@gmail.com'
-    config["mail"]["to"] = 'rmurvai@gmail.com'
-    config["mail"]["key"] = ''
-    config["mail"]["notificationTime"] = '300'
+    config["mail"] = {
+        "from" : 'alertasenzoriarduino@gmail.com',
+        "to" : 'rmurvai@gmail.com',
+        "key" : '',
+        "notificationTime" : '300'
+    }
 
 def populate(window, config):
     window['_Port_'].Update(config["serial"]["port"])
@@ -291,7 +299,11 @@ def main():
     # read if we have config.ini, if not load default
     config = configparser.ConfigParser()
     try:
-        config.read("config.ini")
+        readed = config.read("config.ini")
+        if not readed:
+            LoadDefaults(config)
+            with open('config.ini', 'w') as configfile:    # save
+                config.write(configfile)
     except Exception:
         print("error reading config file, load default")
         LoadDefaults(config)
@@ -303,7 +315,8 @@ def main():
 
     while True:             # Event Loop
         event, values = window.read()
-        SaveValuesToConfig(values, config)
+        if values and values['_Port_']:
+            SaveValuesToConfig(values, config)
 
         #print(event, values)
         if event in (sg.WIN_CLOSED, 'Exit'):
