@@ -29,7 +29,7 @@ Json example:
     "smoke": 0.66
   },
   "pir":{
-	"movement": true
+    "movement": true
   }
 }
 ```
