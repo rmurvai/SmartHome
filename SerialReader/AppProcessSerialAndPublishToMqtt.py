@@ -133,10 +133,10 @@ async def my_long_func(config):
     )
 
     # Instantiate SensorReader and MqttPublisher objects
-    async with SensorReader(config["serial"]["port"],
+    async with SensorReader.SensorReader(config["serial"]["port"],
                             int(config["serial"]["baudrate"]),
                             int(config["serial"]["timeout"])) as sensor_reader:
-        mqtt_publisher = WebPublisher(config["mqtt"]["host"],
+        mqtt_publisher = MQTTPublisher.WebPublisher(config["mqtt"]["host"],
                                     int(config["mqtt"]["port"]),
                                     config["mqtt"]["username"],
                                     config["mqtt"]["password"],
