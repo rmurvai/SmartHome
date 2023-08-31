@@ -9,7 +9,7 @@ def CreateGui(config):
     sg.theme('BlueMono')
 
     # Column layout
-    col = [[sg.Text('Serial')],
+    col_left = [[sg.Text('Serial')],
         [sg.Text('Port', pad=(50, 0), size=(15, 1)),
             sg.InputText(size=(30, 1), key='_Port_')],
         [sg.Text('Baudrate', pad=(50, 0), size=(15, 1)),
@@ -28,7 +28,7 @@ def CreateGui(config):
         [sg.Text('Password', pad=(50, 0), size=(15, 1)),
             sg.InputText(password_char='*', size=(30, 1),key='_mPass_')],
         [sg.Text('Topic', pad=(50, 0), size=(15, 1)), sg.InputText(size=(30, 1),key='_mTopic_')]]
-    col2 = [[sg.Text('Logging')],
+    col_right = [[sg.Text('Logging')],
             [sg.Text('Level', pad=(50, 0), size=(15, 1)),
             sg.InputText(size=(30, 1),key='_level_')],
             [sg.Text('Mail')],
@@ -40,15 +40,15 @@ def CreateGui(config):
             [sg.Text('Notification timeout', pad=(50, 0), size=(15, 1)), sg.InputText(size=(30, 1),key='_mTime_')]]
 
     # Window layout
-    layout = [[sg.Column(col, p=0),
+    layout = [[sg.Column(col_left, p=0),
             sg.VerticalSeparator(pad=20),
-            sg.Column(col2, p=0)],
+            sg.Column(col_right, p=0)],
             [sg.Text('Output data:')],
             [sg.Output(size=(150, 10), key='-OUTPUT-')],
         [sg.Button('Clear'), sg.Button('Load Defaults'), sg.Button('Load Saved'), sg.Button('Save'), sg.Button('Run')]]
 
     # Display the window and get values
-    window = sg.Window('Column Element', layout,
+    window = sg.Window('Run SmartHome', layout,
                     margins=(0, 0), element_padding=(0, 0))
     
     return window
@@ -120,11 +120,11 @@ def SaveValuesToConfig(values, config):
     config["mail"]["notificationTime"] = values['_mTime_']
 
 
-def my_long_func2(config):
-    asyncio.run(my_long_func(config))
+def asyncronReadAndPublishData(config):
+    asyncio.run(ReadAndPublishData(config))
 
 
-async def my_long_func(config):
+async def ReadAndPublishData(config):
     # Configure logging
     logging.basicConfig(
         level=config.get("logging", "level", fallback="INFO"),
@@ -173,7 +173,7 @@ def main():
 
     #create the gui
     window = CreateGui(config)
-
+        
     while True:             # Event Loop
         event, values = window.read()
         if values and values['_Port_']:
@@ -211,7 +211,7 @@ def main():
                 print("Configuration saved!")
         if event == 'Run':
             window.perform_long_operation(lambda:
-                                          my_long_func2(config),
+                                          asyncronReadAndPublishData(config),
                                           '-END KEY-')
             
     window.close()
