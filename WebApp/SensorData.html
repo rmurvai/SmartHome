@@ -66,11 +66,12 @@
         //$(document).ready(function () {Connect();});
 
         $(document).ready(function(){
-            chartTemp = CreateChartTemp();
-            chartCO = createChart(document.getElementById('coChart').getContext('2d'), 'line', map_timeCO, map_co, 'CO ppm', 'CO ppm');
-            chartLPG = createChart(document.getElementById('lpgChart').getContext('2d'), 'line', map_timeLPG, map_lpg, 'LPG ppm', 'LPG ppm');
-            chartSmoke = createChart(document.getElementById('smokeChart').getContext('2d'), 'line', map_timeSmoke, map_smoke, 'Smoke ppm', 'Smoke ppm');
-            chartPir = CreateChartPir();
+            init();
+            // chartTemp = CreateChartTemp();
+            // chartCO = createChart(document.getElementById('coChart').getContext('2d'), 'line', map_timeCO, map_co, 'CO ppm', 'CO ppm');
+            // chartLPG = createChart(document.getElementById('lpgChart').getContext('2d'), 'line', map_timeLPG, map_lpg, 'LPG ppm', 'LPG ppm');
+            // chartSmoke = createChart(document.getElementById('smokeChart').getContext('2d'), 'line', map_timeSmoke, map_smoke, 'Smoke ppm', 'Smoke ppm');
+            // chartPir = CreateChartPir();
         })
 
         $(document).ready(function(){
