@@ -372,7 +372,7 @@ function MessageArrived(message) {
   if (sensorStates.smoke) {
     aux = displayMeasurement('smoke', obj.mq2.smoke, `Smoke ppm concentration is ${obj.mq2.smoke.value}`);
     map_smoke = addValueToMap(map_smoke, obj.mq2.smoke.value);
-    map_timeSmoke = addValueToMap(map_timeLPG, moment().format('LTS'));
+    map_timeSmoke = addValueToMap(map_timeSmoke, moment().format('LTS'));
     charts.Smoke.update();
     isAtRisk = isAtRisk || aux;
   }
