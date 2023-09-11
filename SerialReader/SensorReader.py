@@ -10,6 +10,7 @@ class SensorReader:
         self.serial = None
 
     async def __aenter__(self):
+        logging.info("Start initializing serial")
         self.serial = Serial(
             port=self.port, baudrate=self.baudrate, timeout=self.timeout)
         return self
@@ -29,7 +30,7 @@ class SensorReader:
         try:
             data = json.loads(line)
         except json.JSONDecodeError:
-            logging.warning("Failed to parse data from serial port: %s", line)
+            logging.info("%s", line)
             return None
 
         return data

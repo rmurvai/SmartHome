@@ -15,9 +15,24 @@ MotionSensor motionSensor(PIRpin,LEDpin);
 void setup() {
   // put your setup code here, to run once:
     Serial.begin( 9600 );
+
+    Serial.print("Start Initializing temperature/Humidity sensor");
+    Serial.println();
     tempAndHumiditySensor.Begin();
+    Serial.print("Initializing succesfull temperature/Humidity sensor");
+    Serial.println();
+    
+    Serial.print("Start Initializing gas sensor");
+    Serial.println();
     gasSensor.Begin();
+    Serial.print("Initializing succesfull gas sensor");
+    Serial.println();
+    
+    Serial.print("Start Initializing movement sensor");
+    Serial.println();
     motionSensor.Begin();
+    Serial.print("Initializing succesfull movement sensor");
+    Serial.println();
 }
 
 void loop() {

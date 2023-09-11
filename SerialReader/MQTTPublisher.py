@@ -53,7 +53,7 @@ class WebPublisher:
         for i in range(max_retries):
             result, _ = self.client.publish(topic, processed_json)
             if result == mqtt.MQTT_ERR_SUCCESS:
-                print(processed_json)
+                logging.info(processed_json)
                 return True
             logging.warning(
                 "Publishing failed with error code %d, retrying in %d seconds...", result, retry_interval)
@@ -80,7 +80,7 @@ class WebPublisher:
             with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
                 server.login(self.mail_from, self.mail_key)
                 server.send_message(msg)
-                logging.info("Mail sent")
+                logging.info(f'Mail sent to address {self.mail_to} from {self.mail_from} the subject of mail is {subject}')
         except smtplib.SMTPException:
             logging.error("Error: unable to send email")
         except socket.gaierror:

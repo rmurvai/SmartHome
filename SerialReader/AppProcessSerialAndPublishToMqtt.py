@@ -179,7 +179,7 @@ def main():
         if values and values['_Port_']:
             SaveValuesToConfig(values, config)
 
-        #print(event, values)
+        # print(event, values)
         if event in (sg.WIN_CLOSED, 'Exit'):
             #save the config
             with open('config.ini', 'w') as configfile:    # save
